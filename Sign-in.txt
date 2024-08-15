@@ -1,0 +1,8 @@
+Sign-in
+Sign-up
+Category to recipe (Veg, Non-veg)
+Form to add recipe
+Feature to delete
+Recipe is public (available to any user)
+Add rating for every recipe
+Profile view with their recipes
