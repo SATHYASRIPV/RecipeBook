@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Form, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Signup from './components/Signup';
 import Signin from './components/Signin';
 import { Home } from './components/Home';
@@ -8,7 +8,9 @@ import Feedback from './components/Feedback';
 import { Category } from './components/Category';
 import { Veg } from './components/Veg';
 import { Nonveg } from './components/Nonveg';
-import { AddNRecipeForm, AddVRecipeForm } from './components/Form';
+import { AddRecipeForm } from './components/Form';
+import { Profile } from './components/Profile'
+import { NotFound } from './components/NotFound';
 
 function App() {
     return (
@@ -22,10 +24,10 @@ function App() {
                     <Route path="/recipes" element={<Category />} />
                     <Route path="/veg-recipes" element={<Veg />} />
                     <Route path="/non-veg-recipes" element={<Nonveg />} />
-                    <Route path="/addveg" element={<AddVRecipeForm />} />
-                    <Route path="/addnveg" element={<AddNRecipeForm />} />
-                    
-                    {/* <Route path="*" element={<NotFound />} /> */}
+                    <Route path="/addveg" element={<AddRecipeForm />} />
+                    <Route path="/addnveg" element={<AddRecipeForm />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
         </div>

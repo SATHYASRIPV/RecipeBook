@@ -1,5 +1,10 @@
-import { VegProfile, NonvegProfile } from "../controllers/profile_controller.js"
-import {authenticateUser} from "../authentication.js"
+import { Profile } from "../controllers/profile_controller.js"
+import { authenticateUser } from "../authentication.js"
+import express from "express"
 
-router.get("/vegprofile/:id",VegProfile, authenticateUser)
-router.get("/vegprofile/:id", NonvegProfile, authenticateUser)
+const router = express.Router()
+
+router.get("/profile/:id", Profile, authenticateUser)
+
+export default router
+

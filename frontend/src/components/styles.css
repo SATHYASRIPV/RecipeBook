@@ -395,3 +395,39 @@ body {
     font-size: 16px;
     cursor: pointer;
   }
+
+  .profile-view {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .recipes h2 {
+    margin-top: 20px;
+  }
+  
+  .recipes ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .recipes li {
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  

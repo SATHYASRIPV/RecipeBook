@@ -1,6 +1,6 @@
 import VegRecipe from "../models/veg_recipe_model.js"
 import NvegRecipe from "../models/nonveg_recipe_model.js"
-
+import User from "../models/auth_model.js"
 
 export const AddNveg = async (req, res) => {
     const { name, ingredients, procedure,  } = req.body
@@ -33,6 +33,7 @@ export const AddVeg = async (req, res) => {
         })
         await newRecipe.save()
         res.status(201).json({ message: "Veg Recipe added successfully", recipe: newRecipe })
+        
     }
     catch (err) {
         console.error(err)
@@ -40,25 +41,20 @@ export const AddVeg = async (req, res) => {
     }
 }
 
-export const Remove = async(req,res) => {
-    const recipeId = req.params;
+export const RemoveVeg = async(req,res) => {
+    const recipeId = req.params.id;
     const recipe_user = req.headers['user_id']
 
     try {
-        const recipee = VegRecipe.findById({ id: recipeId }).lean() || NvegRecipe.findById({ id: recipeId }).lean()
-        console.log(recipee.schema.Schema.obj.createdBy)
-        console.log(recipe_user)
-        if (!recipee) {
+        const rec = VegRecipe.find({ $and: [{ _id: { $eq: recipeId } }, { createdBy: { $eq: recipe_user } }] })
+        if (!rec) {
             return res.status(404).json({ message: "Recipe not found" });
         }
-        if ((recipe_user) == (recipee)) {
-            const recipe = await VegRecipe.findByIdAndDelete(recipeId) || NvegRecipe.findByIdAndDelete(recipeId)
-            return res.status(200).json({ message: "Recipe removed successfully" })
-        }
-    
+        else{
+            const recipe = await VegRecipe.findByIdAndDelete(recipeId)
+            if (recipe) return res.status(200).json({ message: "Recipe removed successfully" })
 
-        else {
-            return res.status(403).json({ message: "You are not authorized to remove this recipe" });
+            else return res.status(403).json({ message: "You are not authorized to remove this recipe" }) 
         }
     }
     catch (err) {
@@ -67,19 +63,43 @@ export const Remove = async(req,res) => {
     }
 }
 
-// export const Recipes = async (req, res) => {
-//     try {
-        
-//     }
-//     catch (err) {
-        
-//     }
-// }
+export const RemoveNVeg = async(req,res) => {
+    const recipeId = req.params.id;
+    const recipe_user = req.headers['user_id']
+
+    try {
+        const rec = NvegRecipe.find({ $and: [{ _id: { $eq: recipeId } }, { createdBy: { $eq: recipe_user } }] })
+        if (!rec) {
+            return res.status(404).json({ message: "Recipe not found" });
+        }
+        else{
+            const recipe = await NvegRecipe.findByIdAndDelete(recipeId)
+            if (!recipe) return res.status(200).json({ message: "Recipe removed successfully" })
+
+            else return res.status(403).json({ message: "You are not authorized to remove this recipe" }) 
+        }
+    }
+    catch (err) {
+        console.error(err)
+        res.status(500).json({ message: "Server error" })
+    }
+}
 
 export const VegRecipes = async (req, res) => {
     try {
-        const recipes = await VegRecipe.find({})
-        res.status(200).json(recipes)
+        const recipes = await VegRecipe.find({}).lean()
+        const newrecipes = await Promise.all(recipes.map(async (recipe) => {
+            const user = await User.findById(recipe.createdBy)
+
+            if (user) {
+                recipe.user = user
+            } else {
+                recipe.user = "None"
+            }
+            return recipe
+        }))
+
+        res.status(200).json(recipes)        
     }
     catch (err) {
         res.status(500).json({ message: err.message });
@@ -88,9 +108,21 @@ export const VegRecipes = async (req, res) => {
 
 export const NonVegRecipes = async (req, res) => {
     try {
-        const recipes = await NvegRecipe.find({})
-        res.status(200).json(recipes)
-    } catch (err) {
+        const recipes = await NvegRecipe.find({}).lean()
+        await Promise.all(recipes.map(async (recipe) => {
+            const user = await User.findById(recipe.createdBy)
+
+            if (user) {
+                recipe.user = user
+            } else {
+                recipe.user = "None"
+            }
+            return recipe
+        }))
+
+        res.status(200).json(recipes)        
+    }
+    catch (err) {
         res.status(500).json({ message: err.message });
     }
 }

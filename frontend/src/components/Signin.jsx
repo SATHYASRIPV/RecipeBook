@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios"
 import './styles.css'
+import { useAxiosInterceptor } from './useAxiosInterceptor';
 
 const Signin = () => {
+    useAxiosInterceptor()
     const [data, setData] = useState({ email: "", password: "" })
     const [message, setMessage] = useState('')
     const navigate = useNavigate()
