@@ -9,12 +9,11 @@ export const Nonveg = () => {
     const navigate = useNavigate();
     const [recipes, setRecipes] = useState([])
 
-    useEffect(() => {
-        const fetchvRecipes = async () => {
-            const token = localStorage.getItem('token');
-                const user_id = localStorage.getItem('user_id');
+    
+        const fetchnvRecipes = async () => {
+            const token = localStorage.getItem('token')
+                const user_id = localStorage.getItem('user_id')
             try {
-
                 const response = await axios.get('http://localhost:4000/recipes/non-veg', {
                     headers: {
                         'authorization': `Bearer ${token}`,
@@ -24,34 +23,15 @@ export const Nonveg = () => {
 
                 setRecipes(response.data);
             } catch (err) {
-                console.error('Error fetching recipes:', err);
+                console.log('Error fetching recipes:', err);
             }
         }
-        fetchvRecipes()
+    
+    
+    useEffect(() => {
+        fetchnvRecipes()
     }, [])
 
-    const handleProfile = async (id) => {
-        try {
-            console.log("Hello",id)
-            const token = localStorage.getItem('token');
-            const user_id = localStorage.getItem('user_id');
-            await axios
-                .get(`http://localhost:4000/profile/${id}`, {
-                    headers: {
-                        'authorization': `Bearer ${token}`,
-                        'user_id': `${user_id}`
-                    }
-                })
-                .then((res) => { 
-                    navigate("/profile",{state: {details: res.data}})
-                })
-                .catch((err) => console.log(err))
-            
-        }
-        catch (err) {
-            console.log(err)
-        }
-    }
 
 
     const handleRemove = async (id) => {
@@ -69,20 +49,21 @@ export const Nonveg = () => {
                     'user_id': `${user_id}`
                 }
             })
-                .then((res) => {    
+                .then((res) => {
+                    console.log(res)
                     setRecipes(prevRecipes => prevRecipes.filter(recipe => recipe._id !== id))
             })
                 .catch((err) => {
                     console.log(err)
             })
-
+            
             
         }
         catch (err) {
             console.log('Error removing recipe:', err);
             alert('Error removing recipe');
         }
-    };
+    }
 
     return (
         <div>
@@ -106,13 +87,14 @@ export const Nonveg = () => {
                             <p><strong>Ingredients:</strong> {recipe.ingredients}</p>
                             <p><strong>Procedure:</strong> {recipe.procedure}</p>
                             <p><strong>Created By:</strong></p>
-                            <button onClick={() => { handleProfile(recipe.createdBy) }}>
+                            <button onClick={()=>navigate("/profile",{state: {userid: recipe.createdBy}})}>
                              {recipe.user.username}</button><br></br>
                             <img
                                     src={recipe.user.avatar}
                                     alt={recipe.user.username}
                                     className="user-image"
-                                />
+                            />
+                            <p>{ recipe.createdBy }</p>
                             <p align="right"><strong>Created At:</strong> {recipe.createdAt}</p>
                         </div>
                     ))}

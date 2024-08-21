@@ -46,12 +46,17 @@ export const RemoveVeg = async(req,res) => {
     const recipe_user = req.headers['user_id']
 
     try {
+        const recipe = await VegRecipe.findById(recipeId)
         const rec = VegRecipe.find({ $and: [{ _id: { $eq: recipeId } }, { createdBy: { $eq: recipe_user } }] })
-        if (!rec) {
-            return res.status(404).json({ message: "Recipe not found" });
+        if (recipe.createdBy !== recipe_user)
+            return res.status(404).json({message: "You are not authorized to remove recipe"})
+        else if (!rec) {
+            return res.status(404).json({ message: "Recipe Not Found" });
         }
+
         else{
             const recipe = await VegRecipe.findByIdAndDelete(recipeId)
+
             if (recipe) return res.status(200).json({ message: "Recipe removed successfully" })
 
             else return res.status(403).json({ message: "You are not authorized to remove this recipe" }) 
@@ -63,18 +68,23 @@ export const RemoveVeg = async(req,res) => {
     }
 }
 
-export const RemoveNVeg = async(req,res) => {
+export const RemoveNVeg = async (req, res) => {
     const recipeId = req.params.id;
     const recipe_user = req.headers['user_id']
 
     try {
-        const rec = NvegRecipe.find({ $and: [{ _id: { $eq: recipeId } }, { createdBy: { $eq: recipe_user } }] })
-        if (!rec) {
-            return res.status(404).json({ message: "Recipe not found" });
+        const recipe = await NvegRecipe.findById(recipeId)
+        if(!recipe) return res.status(404).json({ message: "Recipe Not Found" })
+        const rec = VegRecipe.find({ $and: [{ _id: { $eq: recipeId } }, { createdBy: { $eq: recipe_user } }] })
+        if (recipe.createdBy !== recipe_user)
+            return res.status(404).json({message: "You are not authorized to remove recipe"})
+        else if (!rec) {
+            return res.status(404).json({ message: "Recipe Not Found" })
         }
         else{
             const recipe = await NvegRecipe.findByIdAndDelete(recipeId)
-            if (!recipe) return res.status(200).json({ message: "Recipe removed successfully" })
+
+            if (recipe) return res.status(200).json({ message: "Recipe removed successfully" })
 
             else return res.status(403).json({ message: "You are not authorized to remove this recipe" }) 
         }
@@ -84,6 +94,8 @@ export const RemoveNVeg = async(req,res) => {
         res.status(500).json({ message: "Server error" })
     }
 }
+    
+
 
 export const VegRecipes = async (req, res) => {
     try {

@@ -14,10 +14,8 @@ const Signin = () => {
         e.preventDefault()
         try {
             const res = await axios.post("http://localhost:4000/signin", data)
-            // console.log(response.user)
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('user_id', res.data.user._id)
-            // console.log(res.data.user._id)
             setMessage('Sign In successful')
             navigate("/recipes")
         }

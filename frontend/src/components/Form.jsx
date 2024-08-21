@@ -13,28 +13,28 @@ export const AddRecipeForm = () => {
 
     const navigate = useNavigate()
 
-    const handleProfile = async (id) => {
-        try {
-            const token = localStorage.getItem('token');
-            const user_id = localStorage.getItem('user_id');
-            await axios
-                .get(`http://localhost:4000/profile/${id}`, {
-                    headers: {
-                        'authorization': `Bearer ${token}`,
-                        'user_id': `${user_id}`
-                    }
-                })
-                .then((res) => { 
-                    console.log("Updated Successfully")
-                    return res.data
-                })
-                .catch((err) => console.log(err))
+    // const handleProfile = async (id) => {
+    //     try {
+    //         const token = localStorage.getItem('token');
+    //         const user_id = localStorage.getItem('user_id');
+    //         await axios
+    //             .get(`http://localhost:4000/profile/${id}`, {
+    //                 headers: {
+    //                     'authorization': `Bearer ${token}`,
+    //                     'user_id': `${user_id}`
+    //                 }
+    //             })
+    //             .then((res) => { 
+    //                 console.log("Updated Successfully")
+    //                 return res.data
+    //             })
+    //             .catch((err) => console.log(err))
             
-        }
-        catch (err) {
-            console.log(err)
-        }
-    }
+    //     }
+    //     catch (err) {
+    //         console.log(err)
+    //     }
+    // }
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -71,9 +71,7 @@ export const AddRecipeForm = () => {
             navigate("/non-veg-recipes")
             
             setMessage("Your recipe added successfully...")
-            handleProfile(user_id).then((res)=>console.log(res)
-            ).catch((err)=> console.log(err)
-            )
+            
             
         } catch (err) {
             console.error('Error adding recipe:', err);

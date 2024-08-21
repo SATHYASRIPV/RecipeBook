@@ -397,9 +397,10 @@ body {
   }
 
   .profile-view {
+    margin-top: 50px;
     width: 100%;
     max-width: 800px;
-    margin: 0 auto;
+    /* margin: 0; */
     padding: 20px;
   }
   

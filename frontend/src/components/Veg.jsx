@@ -11,7 +11,7 @@ export const Veg = () => {
     const navigate = useNavigate()
     const [recipes, setRecipes] = useState([])
 
-    useEffect(() => {
+    
         const fetchvRecipes = async () => {
             try {
                 const token = localStorage.getItem('token');
@@ -29,31 +29,10 @@ export const Veg = () => {
             } catch (err) {
                 console.log('Error fetching recipes:', err);
             }
-        };
-
-        fetchvRecipes();
-    }, []);
-    const handleProfile = async (id) => {
-        try {
-            const token = localStorage.getItem('token');
-            const user_id = localStorage.getItem('user_id');
-            await axios
-                .get(`http://localhost:4000/profile/${id}`, {
-                    headers: {
-                        'authorization': `Bearer ${token}`,
-                        'user_id': `${user_id}`
-                    }
-                })
-                .then((res) => { 
-                    navigate("/profile",{state: {details: res.data}})
-                })
-                .catch((err) => console.log(err))
-            
         }
-        catch (err) {
-            console.log(err)
-        }
-    }
+    useEffect(() => {
+        fetchvRecipes()
+    }, [])
 
     const handleRemove = async (id) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this recipe?');
@@ -84,7 +63,7 @@ export const Veg = () => {
             console.log('Error removing recipe:', err);
             alert('Error removing recipe');
         }
-    };
+    }
 
     return (
         <div>
@@ -108,7 +87,7 @@ export const Veg = () => {
                             <p><strong>Ingredients:</strong> {recipe.ingredients}</p>
                             <p><strong>Procedure:</strong> {recipe.procedure}</p>
                             <p><strong>Created By:</strong></p>
-                            <button onClick={() => { handleProfile(recipe.createdBy) }}>
+                            <button onClick= { ()=>navigate("/profile",{state: {userid: recipe.createdBy}}) }>
                              {recipe.user.username}</button>
                             <img
                                     src={recipe.user.avatar}

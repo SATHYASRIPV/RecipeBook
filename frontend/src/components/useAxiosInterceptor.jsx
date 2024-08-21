@@ -10,11 +10,8 @@ export const useAxiosInterceptor = () => {
             response => response, 
             error => {
                 if (error.response && error.response.status === 401) {
-                    // Token expired, handle logout
                     localStorage.removeItem('token');
                     localStorage.removeItem('user_id');
-                    
-                    // Redirect to login page
                     navigate('/signin');
                 }
                 return Promise.reject(error);
@@ -24,9 +21,8 @@ export const useAxiosInterceptor = () => {
         return () => {
             axios.interceptors.response.eject(interceptor);
         };
-    }, [navigate]);
+    }, [navigate])
 
-    return null;  // No UI component is returned
-};
+    return null
+}
 
-// export default useAxiosInterceptor

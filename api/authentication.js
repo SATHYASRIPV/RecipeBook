@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
 import User from "./models/auth_model.js"
-// const SECRET_KEY = process.env.SECRET_KEY
-// import useAxiosInterceptors from '../frontend/src/components/AxiosInterceptor.jsx'
+
 
 
 export const authenticateUser = async (req, res, next) => {
@@ -11,7 +10,6 @@ export const authenticateUser = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token,"welcome")
-        // console.log(decoded);
         const user = await User.findById(decoded.user.id)
         if (!user) {
             return res.status(401).json({ message: 'User not found' })

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './styles.css';
 
 export const Home = () => {
+    const navigate = useNavigate()
     return (
         <div className="home-container">
             <header className="home-header">
@@ -10,8 +11,11 @@ export const Home = () => {
                     <ul className="nav-links">
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/signup">Signup</Link></li>
+                        <li><Link to="/signin">Singin</Link></li>
                         <li><Link to="/feedback">Feedback</Link></li>
                     </ul>
+                    <button onClick={() => navigate("/recipes")}>Recipes</button>
+                    <button onClick={()=>navigate("/signout")}>Signout</button>
                 </nav>
             </header>
 

@@ -3,7 +3,7 @@ import './styles.css';
 import { Link,useNavigate } from 'react-router-dom'
 
 export const Category = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
     return (
         <div>
             <header className="home-header">
@@ -13,6 +13,8 @@ export const Category = () => {
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/signup">Signup</Link></li>
                         <li><Link to="/feedback">Feedback</Link></li>
+                        <li><button onClick={() => navigate("/signout")}>Signout</button></li>
+                        
                     </ul>
                 </nav>
             </header>

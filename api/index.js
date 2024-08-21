@@ -1,6 +1,7 @@
 import auth_route from "./routes/auth_route.js"
 import recipe_route from "./routes/recipe_route.js"
 import profile_route from "./routes/profile_route.js"
+import feedback_route from './routes/feedback_route.js'
 import express from "express"
 import mongoose from "mongoose"
 import bodyParser from "body-parser"
@@ -17,7 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use("/", auth_route)
 app.use("/", recipe_route)
-app.use("/",profile_route)
+app.use("/", profile_route)
+app.use("/",feedback_route)
 
 // app.use(authenticateUser())
 mongoose.connect("mongodb+srv://sathyasripv:recipe@recipeuser.mpmkx.mongodb.net/demo?retryWrites=true&w=majority&appName=RecipeUser")

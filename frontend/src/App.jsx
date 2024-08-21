@@ -11,6 +11,7 @@ import { Nonveg } from './components/Nonveg';
 import { AddRecipeForm } from './components/Form';
 import { Profile } from './components/Profile'
 import { NotFound } from './components/NotFound';
+import { Logout } from './components/Logout';
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
                     <Route path="/addveg" element={<AddRecipeForm />} />
                     <Route path="/addnveg" element={<AddRecipeForm />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/signout" element={<Logout />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
