@@ -6,3 +6,15 @@ Feature to delete
 Recipe is public (available to any user)
 Add rating for every recipe
 Profile view with their recipes
+
+{
+  "username":"Roy",
+  "email":"royjs@gmail.com",
+  "password":"R@y"
+}
+
+{
+  "username":"Sathya",
+  "email":"sathyapv@gmail.com",
+  "password":"S@thya"
+}
